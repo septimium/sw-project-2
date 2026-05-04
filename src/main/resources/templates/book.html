@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book Details</title>
+</head>
+<body>
+    <h1 th:text="${book.title != null ? book.title : 'Details'}">Book Title</h1>
+    <a href="/books">Back to Books List</a>
+
+    <ul>
+        <li><strong>ID:</strong> <span th:text="${book.id}"></span></li>
+        <li><strong>Title:</strong> <span th:text="${book.title}"></span></li>
+        <li><strong>Level:</strong> <span th:text="${book.level}"></span></li>
+        <li><strong>Genres:</strong> 
+            <ul>
+                <li th:each="genre : ${book.genres}" th:text="${genre}"></li>
+            </ul>
+        </li>
+    </ul>
+
+    <hr/>
+
+    <h2>Modify Reading Level</h2>
+    <form method="POST" action="/book/modify">
+        <input type="hidden" name="id" th:value="${book.id}" />
+        New Level: <input type="text" name="level" />
+        <input type="submit" value="Change Level" />
+    </form>
+</body>
+</html>

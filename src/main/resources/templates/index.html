@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Semantic Web Project</title>
+</head>
+<body>
+    <h1>Book Recommendation System</h1>
+    
+    <div th:if="${message}">
+        <p style="color: green; font-weight: bold;" th:text="${message}"></p>
+    </div>
+
+    <h2>Upload RDF/XML File</h2>
+    <form method="POST" enctype="multipart/form-data" action="/upload">
+        <table>
+            <tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
+            <tr><td></td><td><input type="submit" value="Upload" /></td></tr>
+        </table>
+    </form>
+    <br/>
+    <a href="/visualize">View existing Graph</a>
+    <br/>
+    <a href="/books">List and Manage Books</a>
+</body>
+</html>
