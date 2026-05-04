@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:ex="http://example.org/books#"
+         xmlns:dc="http://purl.org/dc/elements/1.1/">
+
+    <rdf:Description rdf:about="http://example.org/books#Alice">
+        <rdf:type rdf:resource="http://example.org/books#User"/>
+        <ex:hasReadingLevel>Intermediate</ex:hasReadingLevel>
+        <ex:prefersGenre>Science Fiction</ex:prefersGenre>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://example.org/books#Bob">
+        <rdf:type rdf:resource="http://example.org/books#User"/>
+        <ex:hasReadingLevel>Beginner</ex:hasReadingLevel>
+        <ex:prefersGenre>Mystery</ex:prefersGenre>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://example.org/books#Dune">
+        <rdf:type rdf:resource="http://example.org/books#Book"/>
+        <dc:title>Dune</dc:title>
+        <ex:hasGenre>Science Fiction</ex:hasGenre>
+        <ex:hasGenre>Fantasy</ex:hasGenre>
+        <ex:suitableForLevel>Advanced</ex:suitableForLevel>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://example.org/books#TheSilentPatient">
+        <rdf:type rdf:resource="http://example.org/books#Book"/>
+        <dc:title>The Silent Patient</dc:title>
+        <ex:hasGenre>Mystery</ex:hasGenre>
+        <ex:hasGenre>Murder</ex:hasGenre>
+        <ex:suitableForLevel>Intermediate</ex:suitableForLevel>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://example.org/books#HungerGames">
+        <rdf:type rdf:resource="http://example.org/books#Book"/>
+        <dc:title>Hunger Games</dc:title>
+        <ex:hasGenre>Science Fiction</ex:hasGenre>
+        <ex:hasGenre>Fantasy</ex:hasGenre>
+        <ex:suitableForLevel>Beginner</ex:suitableForLevel>
+    </rdf:Description>
+
+</rdf:RDF>
