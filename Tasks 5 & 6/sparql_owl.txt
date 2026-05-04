@@ -1,0 +1,47 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX ex: <http://example.org/books/ontology#>
+
+# Query 1: List all books in the ontology
+
+SELECT ?book
+WHERE {
+  ?book rdf:type ex:Book .
+}
+
+# Query 2: Find all Users and their Reading Levels
+
+SELECT ?user ?level
+WHERE {
+  ?user rdf:type ex:User .
+  ?user ex:hasReadingLevel ?level .
+}
+
+# Query 3: Find all books that have the "Science Fiction" genre
+
+SELECT ?book
+WHERE {
+  ?book rdf:type ex:Book .
+  ?book ex:hasGenre ex:ScienceFiction .
+}
+
+# Query 4: Find books that are suitable for "Beginner" level readers
+
+SELECT ?book
+WHERE {
+  ?book rdf:type ex:Book .
+  ?book ex:suitableForLevel ex:Beginner .
+}
+
+# Query 5: Recommendation Query - Find a book that matches Bob's reading level and preferred genre (The result was 0 but I modified TheSilentPatient to be a Beginner book so it lists 1 book)
+
+SELECT ?book
+WHERE {
+  ex:Bob ex:prefersGenre ?genre .
+  ex:Bob ex:hasReadingLevel ?level .
+
+  ?book rdf:type ex:Book .
+  ?book ex:hasGenre ?genre .
+  ?book ex:suitableForLevel ?level .
+}

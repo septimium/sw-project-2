@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://example.org/books/ontology#"
+     xml:base="http://example.org/books/ontology"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:ex="http://example.org/books/ontology#">
+
+    <owl:Ontology rdf:about="http://example.org/books/ontology"/>
+
+    <owl:Class rdf:about="http://example.org/books/ontology#Book"/>
+    <owl:Class rdf:about="http://example.org/books/ontology#Genre"/>
+    <owl:Class rdf:about="http://example.org/books/ontology#ReadingLevel"/>
+    <owl:Class rdf:about="http://example.org/books/ontology#User"/>
+
+    <owl:ObjectProperty rdf:about="http://example.org/books/ontology#hasGenre">
+        <rdfs:domain rdf:resource="http://example.org/books/ontology#Book"/>
+        <rdfs:range rdf:resource="http://example.org/books/ontology#Genre"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/books/ontology#hasReadingLevel">
+        <rdfs:domain rdf:resource="http://example.org/books/ontology#User"/>
+        <rdfs:range rdf:resource="http://example.org/books/ontology#ReadingLevel"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/books/ontology#prefersGenre">
+        <rdfs:domain rdf:resource="http://example.org/books/ontology#User"/>
+        <rdfs:range rdf:resource="http://example.org/books/ontology#Genre"/>
+    </owl:ObjectProperty>
+
+    <owl:ObjectProperty rdf:about="http://example.org/books/ontology#suitableForLevel">
+        <rdfs:domain rdf:resource="http://example.org/books/ontology#Book"/>
+        <rdfs:range rdf:resource="http://example.org/books/ontology#ReadingLevel"/>
+    </owl:ObjectProperty>
+
+    <owl:NamedIndividual rdf:about="http://example.org/books/ontology#Beginner">
+        <rdf:type rdf:resource="http://example.org/books/ontology#ReadingLevel"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://example.org/books/ontology#Intermediate">
+        <rdf:type rdf:resource="http://example.org/books/ontology#ReadingLevel"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://example.org/books/ontology#Advanced">
+        <rdf:type rdf:resource="http://example.org/books/ontology#ReadingLevel"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://example.org/books/ontology#ScienceFiction">
+        <rdf:type rdf:resource="http://example.org/books/ontology#Genre"/>
+    </owl:NamedIndividual>
+    
+    <owl:NamedIndividual rdf:about="http://example.org/books/ontology#Fantasy">
+        <rdf:type rdf:resource="http://example.org/books/ontology#Genre"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://example.org/books/ontology#Mystery">
+        <rdf:type rdf:resource="http://example.org/books/ontology#Genre"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://example.org/books/ontology#Murder">
+        <rdf:type rdf:resource="http://example.org/books/ontology#Genre"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://example.org/books/ontology#Alice">
+        <rdf:type rdf:resource="http://example.org/books/ontology#User"/>
+        <ex:hasReadingLevel rdf:resource="http://example.org/books/ontology#Intermediate"/>
+        <ex:prefersGenre rdf:resource="http://example.org/books/ontology#ScienceFiction"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://example.org/books/ontology#Bob">
+        <rdf:type rdf:resource="http://example.org/books/ontology#User"/>
+        <ex:hasReadingLevel rdf:resource="http://example.org/books/ontology#Beginner"/>
+        <ex:prefersGenre rdf:resource="http://example.org/books/ontology#Mystery"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://example.org/books/ontology#Dune">
+        <rdf:type rdf:resource="http://example.org/books/ontology#Book"/>
+        <ex:hasGenre rdf:resource="http://example.org/books/ontology#ScienceFiction"/>
+        <ex:hasGenre rdf:resource="http://example.org/books/ontology#Fantasy"/>
+        <ex:suitableForLevel rdf:resource="http://example.org/books/ontology#Advanced"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://example.org/books/ontology#TheSilentPatient">
+        <rdf:type rdf:resource="http://example.org/books/ontology#Book"/>
+        <ex:hasGenre rdf:resource="http://example.org/books/ontology#Mystery"/>
+        <ex:hasGenre rdf:resource="http://example.org/books/ontology#Murder"/>
+        <ex:suitableForLevel rdf:resource="http://example.org/books/ontology#Intermediate"/>
+    </owl:NamedIndividual>
+
+    <owl:NamedIndividual rdf:about="http://example.org/books/ontology#HungerGames">
+        <rdf:type rdf:resource="http://example.org/books/ontology#Book"/>
+        <ex:hasGenre rdf:resource="http://example.org/books/ontology#ScienceFiction"/>
+        <ex:hasGenre rdf:resource="http://example.org/books/ontology#Fantasy"/>
+        <ex:suitableForLevel rdf:resource="http://example.org/books/ontology#Beginner"/>
+    </owl:NamedIndividual>
+
+</rdf:RDF>
