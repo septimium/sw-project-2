@@ -27,7 +27,6 @@
         </div>
 
         <script>
-            // Fetch users on load
             document.addEventListener("DOMContentLoaded", function() {
                 fetch('/api/users')
                   .then(response => response.json())
@@ -51,12 +50,10 @@
                           select.appendChild(opt);
                       });
                       
-                      // Stop the dropdown click from collapsing the chat
                       select.onclick = function(e) {
                           e.stopPropagation();
                       };
                       
-                      // Insert before the toggle icon
                       header.insertBefore(select, document.getElementById("chat-toggle-icon"));
                   });
             });
@@ -101,12 +98,18 @@
                         starters.style.display = "none";
                     }
                     
+                    var currentPath = window.location.pathname;
+                    var bookId = "none";
+                    if (currentPath.startsWith("/book/")) {
+                        bookId = currentPath.split("/")[2];
+                    }
+                    
                     fetch('/api/chat', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ message: text, userId: userId })
+                        body: JSON.stringify({ message: text, userId: userId, bookId: bookId })
                     })
                     .then(response => response.text())
                     .then(data => {

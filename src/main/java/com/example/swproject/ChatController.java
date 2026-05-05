@@ -25,12 +25,13 @@ public class ChatController {
     public String chat(@RequestBody Map<String, String> request) {
         String userMessage = request.get("message");
         String userId = request.get("userId");
+        String bookId = request.get("bookId");
         
         if (userMessage == null || userMessage.trim().isEmpty()) {
             return "Please provide a valid message.";
         }
         try {
-            return chatService.chat(userMessage, userId);
+            return chatService.chat(userMessage, userId, bookId);
         } catch (Exception e) {
             e.printStackTrace();
             return "Error connecting to LMStudio.";

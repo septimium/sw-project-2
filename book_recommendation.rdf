@@ -18,6 +18,7 @@
     <rdf:Description rdf:about="http://example.org/books#Dune">
         <rdf:type rdf:resource="http://example.org/books#Book"/>
         <dc:title>Dune</dc:title>
+        <dc:creator>Frank Herbert</dc:creator>
         <ex:hasGenre>Science Fiction</ex:hasGenre>
         <ex:hasGenre>Fantasy</ex:hasGenre>
         <ex:suitableForLevel>Advanced</ex:suitableForLevel>
@@ -26,6 +27,7 @@
     <rdf:Description rdf:about="http://example.org/books#TheSilentPatient">
         <rdf:type rdf:resource="http://example.org/books#Book"/>
         <dc:title>The Silent Patient</dc:title>
+        <dc:creator>Alex Michaelides</dc:creator>
         <ex:hasGenre>Mystery</ex:hasGenre>
         <ex:hasGenre>Murder</ex:hasGenre>
         <ex:suitableForLevel>Intermediate</ex:suitableForLevel>
@@ -34,6 +36,7 @@
     <rdf:Description rdf:about="http://example.org/books#HungerGames">
         <rdf:type rdf:resource="http://example.org/books#Book"/>
         <dc:title>Hunger Games</dc:title>
+        <dc:creator>Suzanne Collins</dc:creator>
         <ex:hasGenre>Science Fiction</ex:hasGenre>
         <ex:hasGenre>Fantasy</ex:hasGenre>
         <ex:suitableForLevel>Beginner</ex:suitableForLevel>

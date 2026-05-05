@@ -30,7 +30,7 @@ public class ChatService {
                 .build();
     }
 
-    public String chat(String message, String userId) {
+    public String chat(String message, String userId, String bookId) {
         Embedding queryEmbedding = vectorDbService.getEmbeddingModel().embed(message).content();
         
         List<EmbeddingMatch<TextSegment>> matches = vectorDbService.getEmbeddingStore()
@@ -53,8 +53,18 @@ public class ChatService {
             }
         }
         
+        String pageContext = "";
+        if (bookId != null && !bookId.isEmpty() && !"none".equals(bookId)) {
+            var bookDetails = rdfService.getBookDetails(bookId);
+            if (bookDetails != null && !bookDetails.isEmpty()) {
+                pageContext = "Current Page Viewing: The user is currently viewing the page for the book '" + bookDetails.get("title") + "' (Book ID: " + bookId + "). "
+                            + "If they say 'this book' or 'the author' without naming it, they are referring to this specific book!\n\n";
+            }
+        }
+        
         System.out.println("RAG CONTEXT SENT TO LLM:");
         System.out.println(userInfo);
+        System.out.println(pageContext);
         System.out.println(context);
         System.out.println();
 
@@ -68,6 +78,7 @@ public class ChatService {
         String prompt = "You are a helpful AI assistant for a Book Recommendation System.\n\n"
                 + projectInfo
                 + userInfo
+                + pageContext
                 + "Context from Database:\n" 
                 + (context.isEmpty() ? "No specific books in context.\n" : context) + "\n"
                 + "Rules for answering:\n"
