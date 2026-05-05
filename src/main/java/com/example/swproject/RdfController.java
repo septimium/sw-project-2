@@ -40,7 +40,12 @@ public class RdfController {
     private String currentFilePath = null;
 
     @GetMapping("/")
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("chatStarters", java.util.Arrays.asList(
+            "What can you do?",
+            "How do I upload a book file?",
+            "Can you explain what this project is about?"
+        ));
         return "index";
     }
 
@@ -68,6 +73,12 @@ public class RdfController {
 
     @GetMapping("/visualize")
     public String visualize(ModelMap modelMap) {
+        modelMap.addAttribute("chatStarters", java.util.Arrays.asList(
+            "Explain the graph structure",
+            "What do the edges represent?",
+            "How does FRLayout work?"
+        ));
+        
         if (currentFilePath == null) {
             modelMap.addAttribute("error", "No RDF file uploaded yet.");
             return "visualize";
@@ -135,12 +146,22 @@ public class RdfController {
     @GetMapping("/books")
     public String listBooks(Model model) {
         model.addAttribute("books", rdfService.getAllBooks());
+        model.addAttribute("chatStarters", java.util.Arrays.asList(
+            "What genres are available?",
+            "Can you suggest a book?",
+            "How do I add a new book?"
+        ));
         return "books";
     }
 
     @GetMapping("/book/{id}")
     public String bookDetails(@PathVariable String id, Model model) {
         model.addAttribute("book", rdfService.getBookDetails(id));
+        model.addAttribute("chatStarters", java.util.Arrays.asList(
+            "Give me a summary of this book.",
+            "Who is the author of this book?",
+            "What does this reading level mean?"
+        ));
         return "book";
     }
 

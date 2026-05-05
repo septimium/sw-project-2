@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="chatbox">
+        <div id="chat-widget" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999; width: 300px; font-family: sans-serif;">
+            <div id="chat-header" onclick="toggleChat()" style="background-color: #007bff; color: white; padding: 10px; cursor: pointer; border-radius: 10px 10px 0 0; text-align: center; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+                <span>💬 Chat with us!</span>
+                <span id="chat-toggle-icon">▲</span>
+            </div>
+            <div id="chat-body" style="display: none; background-color: #f9f9f9; border: 1px solid #ccc; height: 350px; flex-direction: column;">
+                <div id="chat-messages" style="flex-grow: 1; padding: 10px; overflow-y: auto; background: white; margin: 5px; border: 1px solid #eee; border-radius: 5px;">
+                    <div style="margin-bottom: 5px;"><strong>Bot:</strong> Hello! How can I help you today?</div>
+                    
+                    <div th:if="${chatStarters != null}" id="conversation-starters" style="margin-top: 10px; display: flex; flex-direction: column; gap: 5px;">
+                        <button th:each="starter : ${chatStarters}" 
+                                th:text="${starter}" 
+                                th:attr="onclick='sendStarter(\'' + ${starter} + '\')'"
+                                style="background-color: #e0f7fa; border: 1px solid #00acc1; padding: 5px; border-radius: 15px; cursor: pointer; text-align: left; font-size: 12px; color: #00838f;">
+                        </button>
+                    </div>
+                </div>
+                <div style="padding: 5px; display: flex;">
+                    <input type="text" id="chat-input" placeholder="Type a message..." style="flex-grow: 1; padding: 5px; border: 1px solid #ccc; border-radius: 3px;" />
+                    <button onclick="sendMessage()" style="margin-left: 5px; background: #007bff; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function toggleChat() {
+                var body = document.getElementById("chat-body");
+                var icon = document.getElementById("chat-toggle-icon");
+                if (body.style.display === "none") {
+                    body.style.display = "flex";
+                    icon.innerText = "▼";
+                } else {
+                    body.style.display = "none";
+                    icon.innerText = "▲";
+                }
+            }
+
+            function sendStarter(message) {
+                var input = document.getElementById("chat-input");
+                input.value = message;
+                sendMessage();
+                var starters = document.getElementById("conversation-starters");
+                if (starters) {
+                    starters.style.display = "none";
+                }
+            }
+
+            function sendMessage() {
+                var input = document.getElementById("chat-input");
+                var messages = document.getElementById("chat-messages");
+                var text = input.value.trim();
+                
+                if (text !== "") {
+                    messages.innerHTML += '<div style="margin-bottom: 5px; text-align: right;"><strong>You:</strong> ' + text + '</div>';
+                    input.value = "";
+                    messages.scrollTop = messages.scrollHeight;
+                    
+                    var starters = document.getElementById("conversation-starters");
+                    if (starters) {
+                        starters.style.display = "none";
+                    }
+                }
+            }
+            
+            document.getElementById("chat-input").addEventListener("keypress", function(event) {
+                if (event.key === "Enter") {
+                    sendMessage();
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>
