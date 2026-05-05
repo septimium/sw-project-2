@@ -27,6 +27,40 @@
         </div>
 
         <script>
+            // Fetch users on load
+            document.addEventListener("DOMContentLoaded", function() {
+                fetch('/api/users')
+                  .then(response => response.json())
+                  .then(users => {
+                      var header = document.getElementById("chat-header");
+                      var select = document.createElement("select");
+                      select.id = "chat-user-select";
+                      select.style.marginLeft = "10px";
+                      select.style.padding = "2px";
+                      select.style.borderRadius = "3px";
+                      
+                      var defaultOpt = document.createElement("option");
+                      defaultOpt.value = "none";
+                      defaultOpt.text = "Select User";
+                      select.appendChild(defaultOpt);
+                      
+                      users.forEach(function(u) {
+                          var opt = document.createElement("option");
+                          opt.value = u;
+                          opt.text = u;
+                          select.appendChild(opt);
+                      });
+                      
+                      // Stop the dropdown click from collapsing the chat
+                      select.onclick = function(e) {
+                          e.stopPropagation();
+                      };
+                      
+                      // Insert before the toggle icon
+                      header.insertBefore(select, document.getElementById("chat-toggle-icon"));
+                  });
+            });
+
             function toggleChat() {
                 var body = document.getElementById("chat-body");
                 var icon = document.getElementById("chat-toggle-icon");
@@ -54,6 +88,9 @@
                 var messages = document.getElementById("chat-messages");
                 var text = input.value.trim();
                 
+                var userSelect = document.getElementById("chat-user-select");
+                var userId = userSelect ? userSelect.value : "none";
+                
                 if (text !== "") {
                     messages.innerHTML += '<div style="margin-bottom: 5px; text-align: right;"><strong>You:</strong> ' + text + '</div>';
                     input.value = "";
@@ -63,6 +100,23 @@
                     if (starters) {
                         starters.style.display = "none";
                     }
+                    
+                    fetch('/api/chat', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ message: text, userId: userId })
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        messages.innerHTML += '<div style="margin-bottom: 5px;"><strong>Bot:</strong> ' + data + '</div>';
+                        messages.scrollTop = messages.scrollHeight;
+                    })
+                    .catch(error => {
+                        messages.innerHTML += '<div style="margin-bottom: 5px; color: red;"><strong>Bot:</strong> Failed to connect to backend server.</div>';
+                        messages.scrollTop = messages.scrollHeight;
+                    });
                 }
             }
             

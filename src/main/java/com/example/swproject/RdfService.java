@@ -68,6 +68,49 @@ public class RdfService {
         return books;
     }
 
+    public List<String> getAllUsers() {
+        List<String> users = new ArrayList<>();
+        Model model = getModel();
+        String queryString = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> " +
+                "PREFIX ex: <" + NS + "> " +
+                "SELECT ?user " +
+                "WHERE { ?user rdf:type ex:User . }";
+
+        try (QueryExecution qExec = QueryExecutionFactory.create(queryString, model)) {
+            ResultSet results = qExec.execSelect();
+            while (results.hasNext()) {
+                QuerySolution soln = results.nextSolution();
+                users.add(soln.getResource("user").getLocalName());
+            }
+        }
+        return users;
+    }
+
+    public Map<String, Object> getUserDetails(String id) {
+        Model model = getModel();
+        Resource userRes = model.getResource(NS + id);
+        Map<String, Object> details = new HashMap<>();
+        List<String> prefersGenres = new ArrayList<>();
+
+        if (userRes == null) return null;
+
+        StmtIterator iter = userRes.listProperties();
+        while (iter.hasNext()) {
+            Statement stmt = iter.nextStatement();
+            String propName = stmt.getPredicate().getLocalName();
+            String value = stmt.getObject().isLiteral() ? stmt.getObject().asLiteral().getString() : stmt.getObject().toString();
+
+            if (propName.equals("hasReadingLevel")) {
+                details.put("level", value);
+            } else if (propName.equals("prefersGenre")) {
+                prefersGenres.add(value);
+            }
+        }
+        details.put("prefersGenres", prefersGenres);
+        details.put("id", id);
+        return details;
+    }
+
     public Map<String, Object> getBookDetails(String id) {
         Model model = getModel();
         Resource bookRes = model.getResource(NS + id);
@@ -84,6 +127,8 @@ public class RdfService {
 
             if (propName.equals("title")) {
                 details.put("title", value);
+            } else if (propName.equals("creator")) {
+                details.put("author", value);
             } else if (propName.equals("hasGenre")) {
                 genres.add(value);
             } else if (propName.equals("suitableForLevel")) {
@@ -95,11 +140,14 @@ public class RdfService {
         return details;
     }
 
-    public void addBook(String id, String title, String level, String genre) {
+    public void addBook(String id, String title, String author, String level, String genre) {
         Model model = getModel();
         Resource newBook = model.createResource(NS + id);
         newBook.addProperty(model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type"), model.createResource(NS + "Book"));
         newBook.addProperty(model.createProperty(DC + "title"), title);
+        if (author != null && !author.isEmpty()) {
+            newBook.addProperty(model.createProperty(DC + "creator"), author);
+        }
         newBook.addProperty(model.createProperty(NS + "suitableForLevel"), level);
         newBook.addProperty(model.createProperty(NS + "hasGenre"), genre);
         saveModel(model);

@@ -10,6 +10,7 @@
     <ul>
         <li><strong>ID:</strong> <span th:text="${book.id}"></span></li>
         <li><strong>Title:</strong> <span th:text="${book.title}"></span></li>
+        <li th:if="${book.author != null}"><strong>Author:</strong> <span th:text="${book.author}"></span></li>
         <li><strong>Level:</strong> <span th:text="${book.level}"></span></li>
         <li><strong>Genres:</strong> 
             <ul>

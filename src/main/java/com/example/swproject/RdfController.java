@@ -37,6 +37,9 @@ public class RdfController {
     @Autowired
     private RdfService rdfService;
 
+    @Autowired
+    private VectorDbService vectorDbService;
+
     private String currentFilePath = null;
 
     @GetMapping("/")
@@ -63,6 +66,8 @@ public class RdfController {
             }
             currentFilePath = fileName;
             rdfService.setActiveFilePath(fileName);
+            
+            vectorDbService.buildVectorDatabaseFromRdf();
 
             redirectAttributes.addFlashAttribute("message", "Successfully uploaded " + file.getOriginalFilename() + "!");
         } catch (Exception e) {
@@ -76,8 +81,7 @@ public class RdfController {
         modelMap.addAttribute("chatStarters", java.util.Arrays.asList(
             "Explain the graph structure",
             "What do the edges represent?",
-            "How does FRLayout work?"
-        ));
+            "How many books are in this graph?"));
         
         if (currentFilePath == null) {
             modelMap.addAttribute("error", "No RDF file uploaded yet.");
@@ -166,14 +170,16 @@ public class RdfController {
     }
 
     @PostMapping("/book/add")
-    public String addBook(@RequestParam String id, @RequestParam String title, @RequestParam String genre, @RequestParam String level) {
-        rdfService.addBook(id, title, level, genre);
+    public String addBook(@RequestParam String id, @RequestParam String title, @RequestParam(required = false) String author, @RequestParam String genre, @RequestParam String level) {
+        rdfService.addBook(id, title, author, level, genre);
+        vectorDbService.buildVectorDatabaseFromRdf(); // Synchronize vector DB
         return "redirect:/books";
     }
 
     @PostMapping("/book/modify")
     public String modifyBook(@RequestParam String id, @RequestParam String level) {
         rdfService.modifyReadingLevel(id, level);
+        vectorDbService.buildVectorDatabaseFromRdf(); // Synchronize vector DB
         return "redirect:/book/" + id;
     }
 
